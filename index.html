@@ -2,21 +2,21 @@
 <html>
 <head>
 <title>Mafiya Loader</title>
-<style>
-body{
-margin:0;
-}
-iframe{
-width:100%;
-height:100vh;
-border:none;
-}
-</style>
 </head>
-
 <body>
 
-<iframe src="https://dilruvanchamikara2011.github.io/dil"></iframe>
+<h2>Loading project...</h2>
+
+<div id="app"></div>
+
+<script>
+fetch("https://api.github.com/repos/dilruvanchamikara2011/dil/contents/index.html")
+.then(res => res.json())
+.then(data => {
+  const decoded = atob(data.content);
+  document.getElementById("app").innerHTML = decoded;
+});
+</script>
 
 </body>
 </html>
