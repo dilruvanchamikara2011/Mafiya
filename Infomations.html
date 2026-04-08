@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CYBER SITE STRUCTURE</title>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600&family=Fira+Code:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* ===== CYBER THEME VARIABLES ===== */
+:root {
+    --primary: #00ff88;
+    --secondary: #00aaff;
+    --accent: #ff00ff;
+    --danger: #ff5555;
+    --warning: #ffaa00;
+    --bg: #0a0a1a;
+    --bg-light: #0f172a;
+    --card-bg: rgba(15, 20, 35, 0.85);
+    --text: #e2e8f0;
+    --glow: 0 0 15px;
+}
+
+/* ===== BASE STYLES ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Fira Code', monospace;
+    min-height: 100vh;
+    padding: 30px;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* ===== CYBER BACKGROUND EFFECTS ===== */
+.cyber-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    background: 
+        radial-gradient(circle at 20% 30%, rgba(0, 255, 136, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(0, 170, 255, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 40% 80%, rgba(255, 0, 255, 0.1) 0%, transparent 50%);
+    animation: bgPulse 10s ease-in-out infinite;
+}
+
+@keyframes bgPulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 0.8; }
+}
+
+.grid-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(rgba(0, 255, 136, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 136, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    z-index: -1;
+    opacity: 0.3;
+    animation: gridMove 20s linear infinite;
+}
+
+@keyframes gridMove {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(40px); }
+}
+
+/* ===== SCAN LINE EFFECT ===== */
+.scan-line {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--primary), var(--secondary), var(--accent), transparent);
+    animation: scanMove 4s linear infinite;
+    z-index: 9999;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+@keyframes scanMove {
+    0% { top: -10%; }
+    100% { top: 110%; }
+}
+
+/* ===== MAIN CONTAINER ===== */
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 10;
+    backdrop-filter: blur(5px);
+}
+
+/* ===== HEADER SECTION ===== */
+.header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 30px;
+    background: rgba(10, 18, 30, 0.6);
+    border: 1px solid var(--primary);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 30px rgba(0, 255, 136, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(0, 255, 136, 0.1) 0%, transparent 70%);
+    animation: rotate 20s linear infinite;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.glitch-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3rem;
+    font-weight: 900;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    position: relative;
+    color: transparent;
+    -webkit-text-stroke: 2px var(--primary);
+    text-shadow: 
+        0 0 20px var(--primary),
+        0 0 40px var(--secondary),
+        0 0 60px var(--accent);
+    animation: glitch 3s infinite;
+}
+
+@keyframes glitch {
+    0%, 100% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(2px, -2px); }
+    60% { transform: translate(-2px, -2px); }
+    80% { transform: translate(2px, 2px); }
+}
+
+.subtitle {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1rem;
+    color: var(--secondary);
+    letter-spacing: 4px;
+    margin-top: 15px;
+    opacity: 0.8;
+    animation: fadePulse 3s infinite;
+}
+
+@keyframes fadePulse {
+    0%, 100% { opacity: 0.8; text-shadow: 0 0 10px var(--secondary); }
+    50% { opacity: 1; text-shadow: 0 0 20px var(--secondary); }
+}
+
+/* ===== STATS BAR ===== */
+.stats-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+
+.stat-box {
+    background: rgba(0, 20, 40, 0.7);
+    border: 1px solid var(--primary);
+    border-radius: 15px;
+    padding: 15px 25px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+    min-width: 150px;
+    text-align: center;
+}
+
+.stat-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 30px var(--primary);
+    border-color: var(--secondary);
+}
+
+.stat-box::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(0, 255, 136, 0.1), transparent);
+    transform: rotate(45deg);
+    animation: shine 3s infinite;
+}
+
+@keyframes shine {
+    0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+    100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+}
+
+.stat-number {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary);
+    text-shadow: 0 0 15px var(--primary);
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    color: var(--secondary);
+    margin-top: 5px;
+}
+
+/* ===== TREE STRUCTURE ===== */
+.tree-container {
+    background: rgba(10, 18, 30, 0.8);
+    border: 1px solid rgba(0, 255, 136, 0.3);
+    border-radius: 20px;
+    padding: 30px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 40px;
+}
+
+.tree-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+}
+
+.tree {
+    font-family: 'Fira Code', monospace;
+    font-size: 15px;
+    line-height: 2;
+    color: var(--text);
+    position: relative;
+    white-space: pre;
+    overflow-x: auto;
+    padding: 20px 0;
+}
+
+/* Tree Lines */
+.tree-line {
+    position: relative;
+    padding-left: 20px;
+}
+
+.tree-line::before {
+    content: '│';
+    position: absolute;
+    left: 0;
+    color: var(--primary);
+    opacity: 0.5;
+}
+
+/* Root Node */
+.root-node {
+    color: var(--primary);
+    font-weight: 700;
+    font-size: 1.2rem;
+    text-shadow: 0 0 10px var(--primary);
+    margin-bottom: 15px;
+    display: inline-block;
+    position: relative;
+}
+
+.root-node::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--primary), transparent);
+}
+
+/* Section Headers */
+.section-header {
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 1rem;
+    margin-top: 15px;
+    margin-bottom: 8px;
+    text-shadow: 0 0 8px var(--accent);
+    position: relative;
+    display: inline-block;
+}
+
+.section-header::before {
+    content: '►';
+    color: var(--secondary);
+    margin-right: 8px;
+    font-size: 0.9rem;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* Folder Items */
+.folder {
+    color: var(--secondary);
+    position: relative;
+    padding-left: 30px;
+    margin: 5px 0;
+}
+
+.folder::before {
+    content: '📁';
+    position: absolute;
+    left: 5px;
+    color: var(--warning);
+    filter: drop-shadow(0 0 5px var(--warning));
+}
+
+/* File Items */
+.file {
+    color: var(--text);
+    position: relative;
+    padding-left: 30px;
+    margin: 3px 0;
+    transition: all 0.2s;
+}
+
+.file:hover {
+    color: var(--primary);
+    transform: translateX(5px);
+    text-shadow: 0 0 8px var(--primary);
+}
+
+.file::before {
+    content: '📄';
+    position: absolute;
+    left: 5px;
+    color: var(--primary);
+    opacity: 0.7;
+    filter: drop-shadow(0 0 3px var(--primary));
+}
+
+/* Special Files */
+.file.special::before {
+    content: '⚡';
+    color: var(--accent);
+    filter: drop-shadow(0 0 5px var(--accent));
+}
+
+.file.hidden::before {
+    content: '🔒';
+    color: var(--danger);
+}
+
+/* Branch Lines */
+.branch {
+    position: relative;
+}
+
+.branch::after {
+    content: '';
+    position: absolute;
+    left: -15px;
+    top: 0;
+    width: 10px;
+    height: 100%;
+    border-left: 1px dashed rgba(0, 255, 136, 0.3);
+    border-bottom: 1px dashed rgba(0, 255, 136, 0.3);
+}
+
+/* Indentation Levels */
+.level-1 { margin-left: 20px; }
+.level-2 { margin-left: 40px; }
+.level-3 { margin-left: 60px; }
+.level-4 { margin-left: 80px; }
+.level-5 { margin-left: 100px; }
+
+/* Tags */
+.tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    margin-left: 8px;
+    font-family: 'Orbitron', sans-serif;
+    vertical-align: middle;
+}
+
+.tag-primary {
+    background: rgba(0, 255, 136, 0.2);
+    border: 1px solid var(--primary);
+    color: var(--primary);
+}
+
+.tag-accent {
+    background: rgba(255, 0, 255, 0.2);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+}
+
+.tag-warning {
+    background: rgba(255, 170, 0, 0.2);
+    border: 1px solid var(--warning);
+    color: var(--warning);
+}
+
+/* Count Badge */
+.count-badge {
+    display: inline-block;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 15px;
+    padding: 2px 10px;
+    margin-left: 10px;
+    font-size: 0.7rem;
+    border: 1px solid var(--primary);
+    color: var(--primary);
+}
+
+/* ===== LEGEND SECTION ===== */
+.legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 30px;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 15px;
+    border: 1px solid rgba(0, 255, 136, 0.2);
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    padding: 5px 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+}
+
+.legend-icon {
+    font-size: 1.1rem;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+    text-align: center;
+    margin-top: 50px;
+    padding: 20px;
+    border-top: 1px solid rgba(0, 255, 136, 0.2);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.8rem;
+    color: var(--secondary);
+    letter-spacing: 2px;
+    position: relative;
+}
+
+.footer-glow {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--primary), var(--secondary), var(--accent), transparent);
+    animation: footerGlow 3s infinite;
+}
+
+@keyframes footerGlow {
+    0%, 100% { opacity: 0.5; width: 200px; }
+    50% { opacity: 1; width: 300px; }
+}
+
+/* ===== CURSOR EFFECT ===== */
+.cursor-glow {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--primary);
+    filter: blur(10px);
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.3;
+    transition: all 0.1s;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    body { padding: 15px; }
+    
+    .glitch-title { font-size: 2rem; letter-spacing: 4px; }
+    
+    .stats-container { gap: 10px; }
+    
+    .stat-box { min-width: 120px; padding: 10px 15px; }
+    
+    .stat-number { font-size: 1.3rem; }
+    
+    .tree { font-size: 12px; }
+    
+    .level-1 { margin-left: 10px; }
+    .level-2 { margin-left: 20px; }
+    .level-3 { margin-left: 30px; }
+    .level-4 { margin-left: 40px; }
+    .level-5 { margin-left: 50px; }
+}
+
+@media (max-width: 480px) {
+    .glitch-title { font-size: 1.5rem; }
+    
+    .stats-container { flex-direction: column; align-items: center; }
+    
+    .stat-box { width: 100%; }
+    
+    .tree { font-size: 10px; }
+    
+    .legend { flex-direction: column; align-items: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- Background Effects -->
+<div class="cyber-bg"></div>
+<div class="grid-overlay"></div>
+<div class="scan-line"></div>
+
+<!-- Cursor Glow -->
+<div class="cursor-glow" id="cursorGlow"></div>
+
+<div class="container">
+    
+    <!-- Header -->
+    <div class="header">
+        <h1 class="glitch-title">SITE ARCHITECTURE</h1>
+        <div class="subtitle">// CYBER STRUCTURE v2.0 //</div>
+    </div>
+    
+    <!-- Stats -->
+    <div class="stats-container">
+        <div class="stat-box">
+            <div class="stat-number">14</div>
+            <div class="stat-label">MAIN FILES</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-number">47</div>
+            <div class="stat-label">TOTAL PAGES</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-number">5</div>
+            <div class="stat-label">CATEGORIES</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-number">100%</div>
+            <div class="stat-label">CYBER</div>
+        </div>
+    </div>
+    
+    <!-- Tree Structure -->
+    <div class="tree-container">
+        <div class="tree">
+<span class="root-node">📁 WEBSITE BASE STRUCTURE</span><span class="count-badge">54 ITEMS</span>
+
+├── <span class="section-header">index.html</span> <span class="tag tag-primary">dashboard</span>
+│   ├── <span class="folder">dashboard.html</span>
+│   │   ├── <span class="file">signup</span> <span class="tag tag-accent">form</span>
+│   │   ├── <span class="file">login</span> <span class="tag tag-accent">form</span>
+│   │   └── <span class="folder">localStorage</span> <span class="tag tag-warning">hidden</span>
+│   │       ├── <span class="file special">signup data</span>
+│   │       ├── <span class="file special">login data</span>
+│   │       ├── <span class="file special">lang data</span>
+│   │       └── <span class="file special">bg song</span>
+│   │
+│   ├── <span class="section-header">myprojects.html</span> <span class="tag tag-primary">14 projects</span>
+│   │   ├── <span class="file">smart calculator</span>
+│   │   ├── <span class="file">wa jid getter</span>
+│   │   ├── <span class="file">wa pp dl</span>
+│   │   ├── <span class="file">wa catalog maker</span>
+│   │   ├── <span class="file">wa spam txt</span>
+│   │   ├── <span class="file">wa bug bot script</span>
+│   │   ├── <span class="file">social media dl</span>
+│   │   ├── <span class="file">past paper dl</span>
+│   │   ├── <span class="file">photo graphic upgrade</span>
+│   │   ├── <span class="file">subtitle generator</span>
+│   │   ├── <span class="file">website html dl</span>
+│   │   ├── <span class="file">txt any lang to sinhala</span>
+│   │   ├── <span class="file">web code error fixer</span>
+│   │   └── <span class="file">how to create website</span>
+│   │
+│   ├── <span class="section-header">powerfullProjects.html</span> <span class="tag tag-warning">not mine</span>
+│   │   ├── <span class="file">free uc bot hosting sites</span>
+│   │   ├── <span class="file">free panel hosting site</span>
+│   │   ├── <span class="file">movie sites</span>
+│   │   ├── <span class="file">pc game download free sites</span>
+│   │   ├── <span class="file">direct link getting sites</span>
+│   │   ├── <span class="file">mod app apk sites</span>
+│   │   ├── <span class="file">social down sites</span>
+│   │   ├── <span class="folder">tools</span> <span class="tag tag-warning">not mine</span>
+│   │   │   ├── <span class="file">termux tools</span>
+│   │   │   └── <span class="file">level exe</span>
+│   │   └── <span class="folder">bot base</span>
+│   │       ├── <span class="file">main bot</span>
+│   │       ├── <span class="file">mini bot</span>
+│   │       └── <span class="file">Teligram bot</span>
+│   │
+│   ├── <span class="section-header">superpowerAI.html</span>
+│   │   ├── <span class="file special">free AI</span>
+│   │   └── <span class="file special">paid AI</span>
+│   │
+│   ├── <span class="section-header">connect-us.html</span>
+│   │   ├── <span class="file">my wa number</span>
+│   │   ├── <span class="file">my T number</span>
+│   │   ├── <span class="file">my wa channel</span>
+│   │   ├── <span class="file">my yt channel</span>
+│   │   └── <span class="file">my tt channel</span>
+│   │
+│   ├── <span class="section-header">services.html</span>
+│   │   ├── <span class="file">web designing</span>
+│   │   └── <span class="file">bot creating</span>
+│   │
+│   ├── <span class="section-header">informations.html</span>
+│   │   ├── <span class="file">site owner info</span>
+│   │   └── <span class="file">site menu</span>
+│   │
+│   └── <span class="section-header">settings.html</span>
+│       ├── <span class="folder">language</span>
+│       └── <span class="folder">bg song</span>
+│           ├── <span class="file">on/off</span>
+│           └── <span class="file">change song</span>
+        </div>
+    </div>
+    
+    <!-- Legend -->
+    <div class="legend">
+        <div class="legend-item"><span class="legend-icon">📁</span> Folder</div>
+        <div class="legend-item"><span class="legend-icon">📄</span> File</div>
+        <div class="legend-item"><span class="legend-icon">⚡</span> Special Feature</div>
+        <div class="legend-item"><span class="legend-icon">🔒</span> Hidden/Local</div>
+        <div class="legend-item"><span class="legend-icon">►</span> Section</div>
+        <div class="legend-item"><span class="legend-icon">│</span> Branch Line</div>
+    </div>
+    
+    <!-- Footer -->
+    <div class="footer">
+        <div>⚡ CYBER STRUCTURE v2.0 | 54 ACTIVE NODES ⚡</div>
+        <div class="footer-glow"></div>
+    </div>
+    
+</div>
+
+<script>
+// Cursor glow effect
+const cursor = document.getElementById('cursorGlow');
+
+document.addEventListener('mousemove', (e) => {
+    cursor.style.left = e.clientX - 10 + 'px';
+    cursor.style.top = e.clientY - 10 + 'px';
+});
+
+// Add random glitch effect to title
+setInterval(() => {
+    const title = document.querySelector('.glitch-title');
+    if (Math.random() > 0.9) {
+        title.style.transform = `translate(${Math.random() * 4 - 2}px, ${Math.random() * 4 - 2}px)`;
+        setTimeout(() => {
+            title.style.transform = 'translate(0)';
+        }, 100);
+    }
+}, 2000);
+
+// Console art
+console.log('%c⚡ CYBER STRUCTURE LOADED ⚡', 'color: #00ff88; font-size: 16px; font-family: Orbitron; font-weight: bold;');
+console.log('%c📁 54 NODES | 5 CATEGORIES | 100% CYBER', 'color: #00aaff; font-size: 12px;');
+</script>
+
+</body>
+</html>
