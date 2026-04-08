@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>CYBER LOGIN</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family:'Inter', sans-serif;
+  background: radial-gradient(circle at 30% 30%, #0a0a1a, #03030c);
+  color:white;
+  position:relative;
+}
+body::before {
+  content:'';
+  position:fixed;
+  width:100%;
+  height:100%;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,136,0.03) 3px, rgba(0,170,255,0.03) 4px);
+  pointer-events:none;
+  animation:scan 15s linear infinite;
+}
+@keyframes scan {
+  0% { transform:translateY(-100%); }
+  100% { transform:translateY(100%); }
+}
+
+/* Dashboard Button */
+.dashboard-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  background: rgba(0, 255, 136, 0.1);
+  border: 1px solid #00ff88;
+  border-radius: 30px;
+  color: #00ff88;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  text-decoration: none;
+  backdrop-filter: blur(10px);
+  z-index: 9999;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dashboard-btn:hover {
+  background: #00ff88;
+  color: #000;
+  box-shadow: 0 0 20px #00ff88;
+  transform: translateY(-2px);
+}
+
+.dashboard-btn .icon {
+  font-size: 1rem;
+}
+
+.card {
+  width:95%;
+  max-width:440px;
+  padding:35px 30px;
+  background:rgba(10,18,30,0.95);
+  backdrop-filter:blur(12px);
+  border-radius:24px;
+  border:1px solid #00ff88;
+  box-shadow:0 0 40px rgba(0,255,136,0.3);
+  position:relative;
+  z-index:10;
+}
+h1 {
+  font-family:'Orbitron', sans-serif;
+  font-weight:900;
+  text-align:center;
+  margin-bottom:30px;
+  font-size:2.2rem;
+  letter-spacing:5px;
+  text-transform:uppercase;
+  background:linear-gradient(135deg, #00ff88, #00ccff, #00ffaa);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+input {
+  width:100%;
+  padding:16px 20px;
+  margin-bottom:18px;
+  border-radius:16px;
+  border:1.5px solid rgba(0,255,136,0.3);
+  background:rgba(0,0,0,0.6);
+  color:#fff;
+  font-size:1rem;
+  outline:none;
+}
+input:focus {
+  border-color:#00aaff;
+  box-shadow:0 0 25px rgba(0,170,255,0.3);
+}
+button {
+  width:100%;
+  padding:16px;
+  border:none;
+  border-radius:50px;
+  cursor:pointer;
+  font-family:'Orbitron',sans-serif;
+  font-weight:700;
+  letter-spacing:3px;
+  background:linear-gradient(90deg,#00ff88,#00aaff);
+  color:#000;
+  font-size:1rem;
+  text-transform:uppercase;
+  transition:0.3s;
+}
+button:hover {
+  transform:translateY(-3px);
+  box-shadow:0 0 35px rgba(0,255,136,0.7);
+}
+
+/* Logout Button (if needed) */
+#logoutBtn {
+  background: linear-gradient(90deg, #ff5555, #aa3333);
+  color: white;
+  margin-top: 15px;
+  display: none;
+}
+
+.message {
+  margin-top:20px;
+  padding:14px 18px;
+  border-radius:14px;
+  text-align:center;
+  border-left:6px solid;
+  background:rgba(0,0,0,0.6);
+}
+.success { color:#ccffcc; border-color:#00ff88; background:rgba(0,255,136,0.1); }
+.error { color:#ffcccc; border-color:#ff5555; background:rgba(255,85,85,0.1); }
+.info { color:#aaddff; border-color:#00aaff; background:rgba(0,170,255,0.1); }
+
+.login-link { 
+  margin-top:15px; 
+  text-align:center; 
+  font-size:0.85rem; 
+  color:#aaddff;
+  border-top:1px solid rgba(0,170,255,0.3);
+  padding-top:15px;
+}
+.login-link span { 
+  color:#00ff88; 
+  cursor:pointer; 
+  font-weight:700;
+  text-decoration:underline;
+  text-underline-offset:4px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- Dashboard Button (hidden initially) -->
+<a href="dashboard.html" class="dashboard-btn" id="dashboardBtn" style="display: none;">
+  <span class="icon">⚡</span>
+  <span>GO TO DASHBOARD</span>
+</a>
+
+<div class="card">
+  <h1>LOGIN</h1>
+
+  <input id="emailInput" placeholder="Email or Username" autocomplete="off">
+  <input id="passwordInput" type="password" placeholder="Password">
+  <button onclick="login()">LOG IN</button>
+
+  <!-- Logout Button (optional) -->
+  <button onclick="logout()" id="logoutBtn" style="display: none;">LOG OUT</button>
+
+  <div id="msg" class="message info">⚡ ENTER CREDENTIALS</div>
+
+  <div class="login-link">
+    Don't have account? <span onclick="goSignup()">SIGN UP</span>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import {
+  getFirestore, collection, query, where, getDocs
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+/* ================= INIT ================= */
+const firebaseConfig = {
+  apiKey: "AIzaSyDW-hB0B-sdrIGI7Uf0Pl2CgfIV5R4X9hY",
+  authDomain: "mafiya-new-data-base.firebaseapp.com",
+  projectId: "mafiya-new-data-base",
+  storageBucket: "mafiya-new-data-base.firebasestorage.app",
+  messagingSenderId: "87239991760",
+  appId: "1:87239991760:web:89ca5f8e07ffb8f8fb19d5",
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+/* ================= UTILS ================= */
+function msg(t, type) {
+  const m = document.getElementById("msg");
+  m.textContent = t;
+  m.className = "message " + type;
+}
+
+/* ================= CHECK LOGIN STATUS ================= */
+function checkLoginStatus() {
+  const dashboardBtn = document.getElementById("dashboardBtn");
+  const logoutBtn = document.getElementById("logoutBtn");
+  
+  // Check localStorage for logged in user
+  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+  const userData = localStorage.getItem('cyber_user');
+  
+  if (isLoggedIn && userData) {
+    dashboardBtn.style.display = 'flex';
+    logoutBtn.style.display = 'block';
+  } else {
+    dashboardBtn.style.display = 'none';
+    logoutBtn.style.display = 'none';
+  }
+}
+
+/* ================= LOGOUT ================= */
+window.logout = function() {
+  localStorage.removeItem('isLoggedIn');
+  localStorage.removeItem('cyber_user');
+  sessionStorage.removeItem('cyber_user');
+  checkLoginStatus();
+  msg("🔓 Logged out successfully", "info");
+};
+
+/* ================= LOGIN ================= */
+window.login = async function() {
+  const input = document.getElementById("emailInput").value.trim();
+  const password = document.getElementById("passwordInput").value;
+
+  if(!input || !password) {
+    msg("❌ Fill all fields", "error");
+    return;
+  }
+
+  try {
+    // Check for email OR username
+    let q = query(collection(db, "users"), where("email", "==", input));
+    let snap = await getDocs(q);
+
+    if(snap.empty) {
+      // Try username
+      q = query(collection(db, "users"), where("username", "==", input));
+      snap = await getDocs(q);
+      if(snap.empty) {
+        msg("❌ User not found", "error");
+        return;
+      }
+    }
+
+    const docRef = snap.docs[0];
+    const userData = docRef.data();
+
+    if(userData.password !== password) {
+      msg("❌ Incorrect password", "error");
+      return;
+    }
+
+    if(!userData.verified) {
+      msg("❌ Account not verified. Please check OTP.", "error");
+      return;
+    }
+
+    // Save to localStorage (for index.html) and sessionStorage
+    const userInfo = {
+      email: userData.email,
+      username: userData.username,
+      verified: true
+    };
+    
+    localStorage.setItem('isLoggedIn', 'true');
+    localStorage.setItem('cyber_user', JSON.stringify(userInfo));
+    sessionStorage.setItem('cyber_user', JSON.stringify(userInfo));
+
+    msg("✅ Login successful! Redirecting...", "success");
+    
+    // Update button visibility
+    checkLoginStatus();
+
+    // Redirect to Dashboard
+    setTimeout(() => {
+      window.location.href = "dashboard.html";
+    }, 1500);
+
+  } catch(e) {
+    console.error(e);
+    msg("❌ Login failed: " + (e.message||"Unknown error"), "error");
+  }
+}
+
+/* ================= SIGNUP LINK ================= */
+window.goSignup = function() {
+  window.location.href = "signup.html";
+}
+
+/* ================= INIT ================= */
+window.onload = function() {
+  // Check if already logged in
+  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+  if (isLoggedIn) {
+    // Already logged in, show dashboard button
+    checkLoginStatus();
+    msg("⚡ You are already logged in", "info");
+  }
+};
+</script>
+
+</body>
+</html>

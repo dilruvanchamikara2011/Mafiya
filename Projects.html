@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CYBER PROJECTS</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ===== YOUR ORIGINAL CSS FROM INDEX ===== */
+:root {
+  --primary: #00ff88;
+  --secondary: #00aaff;
+  --accent: #ff00ff;
+  --bg: #0a0a1a;
+  --card-bg: rgba(15, 20, 35, 0.85);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg);
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Background Effects (copy from index) */
+.cyber-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(0, 255, 136, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(0, 170, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 40% 80%, rgba(255, 0, 255, 0.05) 0%, transparent 50%);
+}
+
+.grid-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(0, 255, 136, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 136, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+  z-index: -1;
+  opacity: 0.5;
+}
+
+/* Auth Bar (same as index) */
+.auth-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  background: rgba(5, 10, 25, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(0, 255, 136, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30px;
+  z-index: 2000;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.4);
+}
+
+.auth-logo {
+  font-family: 'Orbitron', sans-serif;
+  color: var(--primary);
+  letter-spacing: 4px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-shadow: 0 0 15px rgba(0, 255, 136, 0.5);
+  position: relative;
+}
+
+.auth-logo::after {
+  content: '›';
+  margin-left: 10px;
+  color: var(--secondary);
+  animation: blink 1s infinite;
+}
+
+.auth-right {
+  display: flex;
+  gap: 15px;
+}
+
+.auth-btn {
+  padding: 8px 22px;
+  border-radius: 25px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  text-decoration: none;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  background: transparent;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.2), transparent);
+  transition: 0.5s;
+}
+
+.auth-btn:hover::before {
+  left: 100%;
+}
+
+.auth-btn:hover {
+  background: rgba(0, 255, 136, 0.1);
+  box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+  transform: translateY(-2px);
+}
+
+.auth-btn.signup {
+  background: linear-gradient(45deg, rgba(0, 255, 136, 0.2), rgba(0, 170, 255, 0.2));
+  border: 1px solid var(--accent);
+  color: var(--accent);
+}
+
+/* Main Content */
+.main-content {
+  margin-top: 70px;
+  padding: 40px 20px;
+}
+
+/* Projects Header - matching index hero style */
+.projects-header {
+  text-align: center;
+  padding: 60px 20px 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.projects-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 3.5rem;
+  letter-spacing: 8px;
+  margin-bottom: 20px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 30px rgba(0, 255, 136, 0.4);
+  animation: glow 3s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from { filter: drop-shadow(0 0 10px rgba(0, 255, 136, 0.3)); }
+  to { filter: drop-shadow(0 0 20px rgba(0, 255, 136, 0.6)); }
+}
+
+.projects-subtitle {
+  font-size: 1.1rem;
+  letter-spacing: 3px;
+  color: var(--secondary);
+  margin-bottom: 30px;
+  font-weight: 300;
+}
+
+/* Stats Bar - matching status-box style */
+.stats-container {
+  max-width: 1000px;
+  margin: 30px auto 50px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding: 0 20px;
+}
+
+.stat-box {
+  min-height: 120px;
+  padding: 20px 15px;
+  border: 1px solid rgba(0, 255, 136, 0.3);
+  border-radius: 15px;
+  background: rgba(0, 20, 40, 0.6);
+  text-align: center;
+  font-family: 'Orbitron', sans-serif;
+  color: var(--primary);
+  box-shadow: 0 0 15px rgba(0, 255, 136, 0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  animation: glitch-appear 0.8s ease-out;
+}
+
+.stat-box:hover {
+  border: 1px solid rgba(0, 255, 136, 0.6);
+  box-shadow: 0 0 25px rgba(0, 255, 136, 0.4), inset 0 0 20px rgba(0, 255, 136, 0.1);
+  transform: translateY(-5px) scale(1.03);
+  background: rgba(0, 30, 60, 0.7);
+}
+
+.stat-number {
+  font-size: 2rem;
+  font-weight: 700;
+  text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  color: var(--secondary);
+}
+
+/* Filter Tabs - matching auth-btn style */
+.filter-container {
+  text-align: center;
+  margin: 40px 0 30px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 20px;
+}
+
+.filter-tab {
+  padding: 8px 22px;
+  border-radius: 25px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  background: transparent;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.filter-tab::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.2), transparent);
+  transition: 0.5s;
+}
+
+.filter-tab:hover::before {
+  left: 100%;
+}
+
+.filter-tab:hover {
+  background: rgba(0, 255, 136, 0.1);
+  box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+  transform: translateY(-2px);
+}
+
+.filter-tab.active {
+  background: linear-gradient(45deg, rgba(0, 255, 136, 0.2), rgba(0, 170, 255, 0.2));
+  border: 1px solid var(--accent);
+  color: var(--accent);
+}
+
+/* Projects Grid */
+.projects-grid {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 25px;
+  padding: 20px;
+}
+
+/* Project Cards - matching status-box style */
+.project-card {
+  min-height: 200px;
+  padding: 0;
+  border: 1px solid rgba(0, 255, 136, 0.3);
+  border-radius: 15px;
+  background: rgba(0, 20, 40, 0.6);
+  box-shadow: 0 0 15px rgba(0, 255, 136, 0.2);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  animation: glitch-appear 0.8s ease-out;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  backdrop-filter: blur(10px);
+}
+
+@keyframes glitch-appear {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.9);
+    filter: hue-rotate(90deg);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-5px) scale(1.02);
+  }
+  80% {
+    transform: translateY(0) scale(0.98);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+.project-card:hover {
+  border: 1px solid rgba(0, 255, 136, 0.6);
+  box-shadow: 0 0 25px rgba(0, 255, 136, 0.4), inset 0 0 20px rgba(0, 255, 136, 0.1);
+  transform: translateY(-5px) scale(1.03);
+  background: rgba(0, 30, 60, 0.7);
+}
+
+/* Scanning line effect (from index) */
+.project-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: 0;
+  width: 100%;
+  height: 20px;
+  background: linear-gradient(to bottom, transparent, rgba(0, 255, 136, 0.3), transparent);
+  animation: scan 3s linear infinite;
+  opacity: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.project-card:hover::before {
+  opacity: 1;
+}
+
+@keyframes scan {
+  0% { top: -50%; }
+  100% { top: 150%; }
+}
+
+/* Corner accents (from index) */
+.project-card::after {
+  content: '';
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  border: 2px solid var(--primary);
+  opacity: 0.3;
+  top: 5px;
+  left: 5px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.project-card .corner {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  border: 2px solid var(--primary);
+  opacity: 0.3;
+  bottom: 5px;
+  right: 5px;
+  border-left: none;
+  border-top: none;
+  pointer-events: none;
+}
+
+/* Project Image Area */
+.project-image {
+  height: 140px;
+  background: linear-gradient(135deg, #1a2a3a, #0a1a2a);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid rgba(0, 255, 136, 0.2);
+}
+
+.project-image::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent 30%, rgba(0, 255, 136, 0.1) 50%, transparent 70%);
+  animation: shine 3s infinite;
+}
+
+@keyframes shine {
+  0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+  100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+}
+
+.project-icon {
+  font-size: 3.5rem;
+  filter: drop-shadow(0 0 15px var(--primary));
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* Project Badge */
+.project-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 4px 12px;
+  border-radius: 15px;
+  font-size: 0.65rem;
+  font-family: 'Orbitron', sans-serif;
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  z-index: 2;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* Project Content */
+.project-content {
+  padding: 20px;
+}
+
+.project-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.2rem;
+  color: var(--primary);
+  margin-bottom: 8px;
+  text-shadow: 0 0 5px rgba(0, 255, 136, 0.3);
+}
+
+.project-desc {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 15px;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Tech Tags */
+.tech-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.tech-tag {
+  font-size: 0.65rem;
+  padding: 4px 10px;
+  border-radius: 12px;
+  background: rgba(0, 255, 136, 0.1);
+  border: 1px solid rgba(0, 255, 136, 0.3);
+  color: var(--secondary);
+  font-family: 'Inter', sans-serif;
+}
+
+/* Project Stats */
+.project-stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 12px;
+  border-top: 1px solid rgba(0, 255, 136, 0.2);
+}
+
+.stats-left {
+  display: flex;
+  gap: 15px;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.stat-item i {
+  color: var(--primary);
+  font-style: normal;
+}
+
+.view-btn {
+  padding: 5px 15px;
+  border-radius: 20px;
+  background: linear-gradient(45deg, var(--primary), var(--secondary));
+  color: #000;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.7rem;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s;
+  border: none;
+  cursor: pointer;
+}
+
+.view-btn:hover {
+  transform: translateX(3px);
+  box-shadow: 0 0 15px var(--primary);
+}
+
+/* Pagination - matching cyber-btn style */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 50px 0 30px;
+}
+
+.page-btn {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: rgba(15, 20, 35, 0.9);
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  font-size: 1rem;
+  font-family: 'Orbitron', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.page-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+}
+
+.page-btn.active {
+  background: var(--primary);
+  color: #000;
+  box-shadow: 0 0 25px rgba(0, 255, 136, 0.6);
+}
+
+/* Cyber Menu (same as index) */
+.cyber-menu-btn {
+  position: fixed;
+  top: 75px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(15, 20, 35, 0.9);
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  font-size: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1000;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.cyber-menu-btn:hover {
+  transform: rotate(90deg);
+  box-shadow: 0 0 25px rgba(0, 255, 136, 0.5);
+}
+
+.cyber-menu-panel {
+  position: fixed;
+  top: 100px;
+  right: 30px;
+  width: 300px;
+  background: rgba(15, 20, 35, 0.95);
+  border: 1px solid rgba(0, 255, 136, 0.3);
+  border-radius: 20px;
+  padding: 25px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-20px);
+  transition: all 0.3s ease;
+  z-index: 999;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
+
+.cyber-menu-panel.active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.menu-title {
+  font-family: 'Orbitron', sans-serif;
+  color: var(--primary);
+  margin-bottom: 25px;
+  text-align: center;
+  font-size: 1.2rem;
+  letter-spacing: 3px;
+  text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+}
+
+.cyber-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 18px;
+  margin-bottom: 12px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(0, 255, 136, 0.1);
+  border-radius: 12px;
+  cursor: pointer;
+  color: #fff;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+.cyber-menu-item:hover {
+  background: rgba(0, 255, 136, 0.15);
+  border-color: var(--primary);
+  transform: translateX(10px);
+  box-shadow: 0 5px 15px rgba(0, 255, 136, 0.2);
+}
+
+/* Footer (same as index) */
+.cyber-footer {
+  text-align: center;
+  padding: 30px 20px;
+  margin-top: 50px;
+  background: rgba(5, 10, 25, 0.9);
+  border-top: 1px solid rgba(0, 255, 136, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.footer-logo {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.5rem;
+  color: var(--primary);
+  letter-spacing: 4px;
+  text-shadow: 0 0 15px rgba(0, 255, 136, 0.5);
+}
+
+.copyright {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.8rem;
+  color: #00ff88;
+  letter-spacing: 2px;
+  opacity: 0.7;
+}
+
+/* Particles effect (from index) */
+.particles {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: var(--primary);
+  border-radius: 50%;
+  opacity: 0;
+}
+
+.project-card:hover .particle {
+  animation: float-particle 3s linear infinite;
+}
+
+@keyframes float-particle {
+  0% {
+    opacity: 0;
+    transform: translateY(0) translateX(0);
+  }
+  10% {
+    opacity: 0.8;
+  }
+  90% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-50px) translateX(var(--tx, 20px));
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .projects-title {
+    font-size: 2.2rem;
+    letter-spacing: 4px;
+  }
+  
+  .stats-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .auth-bar {
+    padding: 0 15px;
+  }
+  
+  .cyber-menu-panel {
+    right: 20px;
+    width: calc(100% - 40px);
+  }
+  
+  .cyber-menu-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .projects-title {
+    font-size: 1.8rem;
+  }
+  
+  .filter-tab {
+    padding: 6px 15px;
+    font-size: 0.7rem;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="cyber-bg"></div>
+<div class="grid-overlay"></div>
+
+<!-- Auth Bar (same as index) -->
+<div class="auth-bar">
+  <div class="auth-left">
+    <span class="auth-logo">CYBER</span>
+  </div>
+<div class="auth-right" id="authButtons">
+  <a href="login.html" class="auth-btn">LOGIN</a>
+  <a href="signup.html" class="auth-btn signup">SIGN UP</a>
+ </div>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+  
+  <!-- Projects Header -->
+  <div class="projects-header">
+    <h1 class="projects-title">PROJECTS</h1>
+    <p class="projects-subtitle">// CYBER PROJECTS COLLECTION //</p>
+  </div>
+
+  <!-- Stats Container (like status-boxes from index) -->
+  <div class="stats-container">
+    <div class="stat-box">
+      <div class="stat-number" id="totalProjects">14</div>
+      <div class="stat-label">TOTAL PROJECTS</div>
+      <div class="particles"></div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-number" id="activeProjects">14</div>
+      <div class="stat-label">ACTIVE</div>
+      <div class="particles"></div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-number" id="completedProjects">12</div>
+      <div class="stat-label">COMPLETED</div>
+      <div class="particles"></div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-number" id="categories">6</div>
+      <div class="stat-label">CATEGORIES</div>
+      <div class="particles"></div>
+    </div>
+  </div>
+
+  <!-- Filter Tabs -->
+  <div class="filter-container">
+    <span class="filter-tab active">ALL</span>
+    <span class="filter-tab">CALCULATOR</span>
+    <span class="filter-tab">WHATSAPP</span>
+    <span class="filter-tab">DOWNLOADER</span>
+    <span class="filter-tab">CONVERTER</span>
+    <span class="filter-tab">OTHER</span>
+  </div>
+
+  <!-- Projects Grid -->
+  <div class="projects-grid" id="projectsGrid"></div>
+
+  <!-- Pagination -->
+  <div class="pagination" id="pagination"></div>
+
+</div>
+
+<!-- Cyber Menu (same as index) -->
+<div class="cyber-menu-btn" id="menuBtn">☰</div>
+<div class="cyber-menu-panel" id="menuPanel">
+  <div class="menu-title">SYSTEM NAVIGATION</div>
+  <a href="index.html" class="cyber-menu-item">
+    <span class="icon">🏠</span>
+    <span>DASHBORD</span>
+  </a>
+  <a href="projects.html" class="cyber-menu-item">
+    <span class="icon">🚀</span>
+    <span>PROJECTS</span>
+  </a>
+  <a href="webapps.html" class="cyber-menu-item">
+    <span class="icon">🌐</span>
+    <span>WEB APPS</span>
+  </a>
+  <a href="services.html" class="cyber-menu-item">
+    <span class="icon">⚙️</span>
+    <span>SERVICES</span>
+  </a>
+  <a href="contact.html" class="cyber-menu-item">
+    <span class="icon">📧</span>
+    <span>CONTACT</span>
+  </a>
+</div>
+
+<!-- Footer (same as index) -->
+<footer class="cyber-footer">
+  <div class="footer-content">
+    <div class="footer-logo">ᏒᴅxメᎷᴀꜰɪᴀ</div>
+    <div class="copyright">© 2026 CYBER PROJECTS | ALL SYSTEMS OPERATIONAL</div>
+  </div>
+</footer>
+
+<script>
+// Project Data
+const projects = [
+  {
+    name: "Smart Calculator",
+    filename: "smart-calculator",
+    desc: "Advanced calculator with scientific functions, graphing, and unit conversions",
+    tech: ["HTML", "CSS", "JS", "Math.js"],
+    category: "calculator",
+    icon: "🧮",
+    stars: 234,
+    forks: 56,
+    badge: "NEW"
+  },
+  {
+    name: "WA App DL",
+    filename: "wa-app-dl",
+    desc: "Download WhatsApp status, images, videos, and documents",
+    tech: ["JS", "API", "Node.js"],
+    category: "whatsapp",
+    icon: "📱",
+    stars: 567,
+    forks: 123,
+    badge: "HOT"
+  },
+  {
+    name: "WA Bug Bot",
+    filename: "wa-bug-bot",
+    desc: "Automated WhatsApp bot script with anti-ban system",
+    tech: ["Python", "Selenium"],
+    category: "whatsapp",
+    icon: "🤖",
+    stars: 892,
+    forks: 234,
+    badge: "FEATURED"
+  },
+  {
+    name: "Social Media DL",
+    filename: "social-media-dl",
+    desc: "Download videos from YouTube, Instagram, TikTok, Facebook",
+    tech: ["Python", "API", "FFmpeg"],
+    category: "downloader",
+    icon: "📥",
+    stars: 1234,
+    forks: 345,
+    badge: "POPULAR"
+  },
+  {
+    name: "Subtitle Generator",
+    filename: "subtitle-generator",
+    desc: "AI-powered subtitle generator with 50+ languages",
+    tech: ["Python", "AI", "Flask"],
+    category: "converter",
+    icon: "📝",
+    stars: 445,
+    forks: 98,
+    badge: "AI"
+  },
+  {
+    name: "TXT to Sinhala",
+    filename: "txt-to-sinhala",
+    desc: "Convert text from any language to Sinhala",
+    tech: ["Python", "NLP", "API"],
+    category: "converter",
+    icon: "🔤",
+    stars: 678,
+    forks: 145,
+    badge: "NEW"
+  },
+  {
+    name: "Web Code Fixer",
+    filename: "web-code-fixer",
+    desc: "AI tool that detects and fixes HTML/CSS/JS errors",
+    tech: ["JS", "AST", "ESLint"],
+    category: "other",
+    icon: "🔨",
+    stars: 345,
+    forks: 67,
+    badge: "TOOL"
+  },
+  {
+    name: "Website HTML DL",
+    filename: "website-html-dl",
+    desc: "Download complete websites including all assets",
+    tech: ["Python", "Requests"],
+    category: "downloader",
+    icon: "🌐",
+    stars: 567,
+    forks: 134,
+    badge: null
+  },
+  {
+    name: "Valid Getter",
+    filename: "valid-getter",
+    desc: "Extract and validate data from JSON, XML, CSV",
+    tech: ["Python", "Pandas"],
+    category: "other",
+    icon: "✅",
+    stars: 234,
+    forks: 45,
+    badge: "NEW"
+  },
+  {
+    name: "Photo Upgrade",
+    filename: "photo-upgrade",
+    desc: "AI image enhancement with super-resolution",
+    tech: ["Python", "TensorFlow", "OpenCV"],
+    category: "other",
+    icon: "🎨",
+    stars: 789,
+    forks: 167,
+    badge: "AI"
+  },
+  {
+    name: "WA Catalog Maker",
+    filename: "wa-catalog-maker",
+    desc: "Create professional WhatsApp Business catalogs",
+    tech: ["React", "Node.js", "MongoDB"],
+    category: "whatsapp",
+    icon: "📦",
+    stars: 456,
+    forks: 89,
+    badge: null
+  },
+  {
+    name: "WA Spam TXT",
+    filename: "wa-spam-txt",
+    desc: "Text formatter and message scheduler for WhatsApp",
+    tech: ["JS", "Node.js"],
+    category: "whatsapp",
+    icon: "💬",
+    stars: 234,
+    forks: 56,
+    badge: null
+  },
+  {
+    name: "Post Repair DL",
+    filename: "post-repair-dl",
+    desc: "Fix and download corrupted social media posts",
+    tech: ["Python", "PIL", "OpenCV"],
+    category: "downloader",
+    icon: "🔧",
+    stars: 345,
+    forks: 78,
+    badge: "FIXER"
+  },
+  {
+    name: "Create Website",
+    filename: "create-website",
+    desc: "Complete guide with templates to create websites",
+    tech: ["HTML", "CSS", "JS", "React"],
+    category: "other",
+    icon: "📚",
+    stars: 1456,
+    forks: 567,
+    badge: "GUIDE"
+  }
+];
+
+// Settings
+let currentFilter = "all";
+let currentPage = 1;
+const perPage = 6;
+
+// Menu functionality (from index)
+const menuBtn = document.getElementById("menuBtn");
+const menuPanel = document.getElementById("menuPanel");
+
+menuBtn.onclick = (e) => {
+  e.stopPropagation();
+  menuPanel.classList.toggle("active");
+};
+
+document.onclick = (e) => {
+  if (!menuPanel.contains(e.target) && !menuBtn.contains(e.target)) {
+    menuPanel.classList.remove("active");
+  }
+};
+
+// Add particles to stat boxes (from index)
+document.querySelectorAll('.stat-box').forEach(box => {
+  const particles = document.createElement('div');
+  particles.className = 'particles';
+  box.appendChild(particles);
+  
+  for(let i = 0; i < 5; i++){
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    particle.style.left = `${Math.random() * 100}%`;
+    particle.style.top = `${Math.random() * 100}%`;
+    particle.style.setProperty('--tx', `${(Math.random() - 0.5) * 40}px`);
+    particle.style.animationDelay = `${Math.random() * 2}s`;
+    particles.appendChild(particle);
+  }
+});
+
+// Check login status from localStorage (same as index)
+function checkLoginStatus() {
+  const authButtons = document.getElementById("authButtons");
+  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+  
+  if (isLoggedIn) {
+    authButtons.style.display = 'none';
+  } else {
+    authButtons.style.display = 'flex';
+  }
+}
+checkLoginStatus();
+
+// Render projects
+function renderProjects(data) {
+  const grid = document.getElementById("projectsGrid");
+  grid.innerHTML = "";
+
+  if (data.length === 0) {
+    grid.innerHTML = "<div style='grid-column:1/-1;text-align:center;padding:50px;color:var(--primary);font-family:Orbitron;'>⚠️ NO PROJECTS FOUND ⚠️</div>";
+    updateStats(0);
+    return;
+  }
+
+  const start = (currentPage - 1) * perPage;
+  const end = start + perPage;
+  const paginated = data.slice(start, end);
+
+  paginated.forEach((p, index) => {
+    const card = document.createElement("a");
+    card.href = "projects/" + p.filename + ".html";
+    card.className = "project-card";
+    card.style.animationDelay = `${index * 0.1}s`;
+    
+    const badgeHtml = p.badge ? `<div class="project-badge">${p.badge}</div>` : '';
+    
+    card.innerHTML = `
+      <div class="project-image">
+        ${badgeHtml}
+        <div class="project-icon">${p.icon}</div>
+      </div>
+      <div class="project-content">
+        <h3 class="project-title">${p.name}</h3>
+        <p class="project-desc">${p.desc}</p>
+        <div class="tech-container">
+          ${p.tech.slice(0, 3).map(t => `<span class="tech-tag">${t}</span>`).join("")}
+        </div>
+        <div class="project-stats">
+          <div class="stats-left">
+            <span class="stat-item"><i>⭐</i> ${p.stars}</span>
+            <span class="stat-item"><i>🔀</i> ${p.forks}</span>
+          </div>
+          <span class="view-btn">VIEW →</span>
+        </div>
+      </div>
+      <div class="corner"></div>
+      <div class="particles"></div>
+    `;
+    
+    // Add particles to card
+    const particles = document.createElement('div');
+    particles.className = 'particles';
+    card.appendChild(particles);
+    
+    for(let i = 0; i < 8; i++){
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      particle.style.left = `${Math.random() * 100}%`;
+      particle.style.top = `${Math.random() * 100}%`;
+      particle.style.setProperty('--tx', `${(Math.random() - 0.5) * 40}px`);
+      particle.style.animationDelay = `${Math.random() * 2}s`;
+      particles.appendChild(particle);
+    }
+    
+    grid.appendChild(card);
+  });
+
+  renderPagination(data.length);
+  updateStats(data.length);
+}
+
+// Update stats
+function updateStats(filteredCount) {
+  document.getElementById('totalProjects').textContent = projects.length;
+  document.getElementById('activeProjects').textContent = filteredCount;
+  document.getElementById('completedProjects').textContent = Math.floor(filteredCount * 0.8);
+  
+  const categories = [...new Set(projects.map(p => p.category))];
+  document.getElementById('categories').textContent = categories.length;
+}
+
+// Pagination
+function renderPagination(total) {
+  const pages = Math.ceil(total / perPage);
+  const pag = document.getElementById("pagination");
+  pag.innerHTML = "";
+
+  for (let i = 1; i <= pages; i++) {
+    const btn = document.createElement("button");
+    btn.className = "page-btn";
+    btn.textContent = i;
+    if (i === currentPage) btn.classList.add("active");
+    btn.onclick = () => {
+      currentPage = i;
+      filterProjects();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+    pag.appendChild(btn);
+  }
+}
+
+// Filter logic
+function filterProjects() {
+  let filtered = projects;
+
+  if (currentFilter !== "all") {
+    filtered = filtered.filter(p => p.category === currentFilter);
+  }
+
+  renderProjects(filtered);
+}
+
+// Filter tabs click
+document.querySelectorAll(".filter-tab").forEach(tab => {
+  tab.onclick = function() {
+    document.querySelectorAll(".filter-tab").forEach(t => t.classList.remove("active"));
+    this.classList.add("active");
+    currentFilter = this.textContent.trim().toLowerCase();
+    currentPage = 1;
+    filterProjects();
+  };
+});
+
+// Initialize
+filterProjects();
+
+// Check login status from localStorage
+function checkLoginStatus() {
+  const authButtons = document.getElementById("authButtons");
+  
+  // localStorage එක check කරන්න
+  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+  
+  if (isLoggedIn) {
+    // Logged in නම් buttons hide කරන්න
+    authButtons.style.display = 'none';
+  } else {
+    // Logged in නැත්නම් buttons පෙන්වන්න
+    authButtons.style.display = 'flex';
+  }
+}
+
+// Listen for storage changes (login වෙනත් tab එකක සිදු වුනොත්)
+window.addEventListener('storage', function(e) {
+  if (e.key === 'isLoggedIn') {
+    checkLoginStatus();
+  }
+});
+
+// Page එක load වෙද්දි check කරන්න
+document.addEventListener("DOMContentLoaded", function() {
+  checkLoginStatus();
+  
+  // අනික් කෝඩ් ටික...
+  // (ඔයාගේ existing code එක)
+});
+
+// Console art
+console.log('%c⚡ CYBER PROJECTS LOADED ⚡', 'color: #00ff88; font-size: 14px; font-family: Orbitron;');
+</script>
+
+</body>
+</html>

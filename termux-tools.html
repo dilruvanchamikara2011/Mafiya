@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡ TERMUX TOOLS • EVIL EYE ⚡</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800;900&family=Fira+Code:wght@300;400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #ff3333;        /* blood red */
+            --secondary: #cc0000;      /* dark red */
+            --accent: #330000;          /* deep crimson */
+            --danger: #ff0000;
+            --warning: #ff9900;
+            --bg: #0b0b0f;              /* almost black */
+            --card-bg: rgba(20, 10, 15, 0.9); /* dark maroon tint */
+            --text: #e0e0e0;
+            --term-bg: #0a0508;
+            --term-text: #ff4d4d;        /* glowing red */
+            --term-prompt: #ff6666;
+            --evil-glow: rgba(255, 0, 0, 0.6);
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* ===== EVIL BACKGROUND (darker, red hues) ===== */
+        .cyber-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(180, 0, 0, 0.25) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(100, 0, 0, 0.3) 0%, transparent 45%),
+                radial-gradient(circle at 40% 80%, rgba(70, 0, 0, 0.4) 0%, transparent 50%);
+            animation: bgPulse 12s ease-in-out infinite;
+        }
+
+        @keyframes bgPulse {
+            0%, 100% { opacity: 0.6; filter: blur(1px); }
+            50% { opacity: 1; filter: blur(0px); }
+        }
+
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(180, 0, 0, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(180, 0, 0, 0.08) 1px, transparent 1px);
+            background-size: 45px 45px;
+            z-index: -1;
+            opacity: 0.2;
+            animation: gridMove 18s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(45px); }
+        }
+
+        .scan-line {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #ff0000, #990000, #330000, transparent);
+            animation: scanMove 3.5s linear infinite;
+            z-index: 9999;
+            opacity: 0.7;
+            pointer-events: none;
+            box-shadow: 0 0 15px red;
+        }
+
+        @keyframes scanMove {
+            0% { top: -8%; }
+            100% { top: 108%; }
+        }
+
+        /* ===== EVIL EYE (animated, always watching) ===== */
+        .evil-eye-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 90px;
+            height: 90px;
+            z-index: 10000;
+            filter: drop-shadow(0 0 15px #ff4444);
+            animation: eyeFloat 4s ease-in-out infinite;
+            cursor: pointer;
+            opacity: 0.9;
+            transition: 0.3s;
+        }
+        .evil-eye-container:hover {
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 25px #ff0000);
+        }
+        @keyframes eyeFloat {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .eye-socket {
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 30%, #2a1a1a, #0f0505);
+            border-radius: 50%;
+            border: 4px solid #a00;
+            position: relative;
+            box-shadow: inset 0 0 30px #400000, 0 0 30px #b30000;
+            overflow: hidden;
+        }
+        .eye-pupil {
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle at 40% 40%, #ff6666, #990000);
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 3px solid #300;
+            box-shadow: 0 0 20px red;
+            animation: pupilMove 3s infinite alternate;
+        }
+        @keyframes pupilMove {
+            0% { transform: translate(-50%, -50%) scale(1); }
+            25% { transform: translate(-30%, -40%) scale(1.1); }
+            50% { transform: translate(-60%, -60%) scale(0.9); }
+            75% { transform: translate(-40%, -30%) scale(1.05); }
+            100% { transform: translate(-55%, -45%) scale(1); }
+        }
+        .eye-veins {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, transparent 60%, #b33 80%);
+            opacity: 0.4;
+            mix-blend-mode: overlay;
+        }
+        /* small glint */
+        .eye-glimmer {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: radial-gradient(circle, #fff, rgba(255,200,200,0.3));
+            border-radius: 50%;
+            top: 20%;
+            left: 20%;
+            filter: blur(1px);
+            opacity: 0.8;
+            animation: glimmerMove 2s infinite;
+        }
+        @keyframes glimmerMove {
+            0% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+            100% { opacity: 0.6; transform: scale(1); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* ===== HEADER (bloodier) ===== */
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .glitch-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            font-weight: 900;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #ff5e5e, #b30000, #5a0000);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 300% 300%;
+            animation: gradientFlow 5s ease infinite;
+            text-shadow: 0 0 40px #f33, 0 0 15px #900;
+        }
+
+        @keyframes gradientFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            color: #ff8888;
+            letter-spacing: 3px;
+            font-family: 'Orbitron', sans-serif;
+            margin-top: 0.5rem;
+            text-shadow: 0 0 10px #e33;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #ff8888;
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            margin-top: 1rem;
+            padding: 0.5rem 1.2rem;
+            border: 1px solid #b33;
+            border-radius: 30px;
+            transition: all 0.3s;
+            background: rgba(50,0,0,0.2);
+        }
+
+        .back-btn:hover {
+            background: #b33;
+            color: #000;
+            transform: translateX(-5px);
+            box-shadow: 0 0 20px red;
+        }
+
+        /* ===== TOOLS GRID ===== */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .tool-card {
+            background: var(--card-bg);
+            border: 1px solid #b33;
+            border-radius: 30px;
+            padding: 2rem;
+            backdrop-filter: blur(12px);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.5s ease-out;
+            box-shadow: 0 0 30px rgba(150,0,0,0.3);
+        }
+
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(200, 0, 0, 0.2) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .tool-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .tool-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #aa2222, #440000);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #ffa0a0;
+            font-weight: 700;
+            border: 2px solid #b33;
+            box-shadow: 0 0 30px #c33;
+        }
+
+        .tool-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            color: #ff7b7b;
+            text-shadow: 0 0 10px #d33;
+        }
+
+        .tool-title small {
+            font-size: 0.8rem;
+            color: #ffaaaa;
+            display: block;
+        }
+
+        .tool-description {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: rgba(255, 200, 200, 0.9);
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: rgba(30, 0, 0, 0.5);
+            border-left: 4px solid #ff4d4d;
+            border-radius: 10px;
+            position: relative;
+            z-index: 2;
+            box-shadow: inset 0 0 15px #330000;
+        }
+
+        /* ===== TERMINAL STYLE (darker, red glow) ===== */
+        .terminal-box {
+            background: #0d0606;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border: 1px solid #a22;
+            font-family: 'Fira Code', monospace;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 0 25px #a00 inset, 0 0 15px #a00;
+        }
+
+        .terminal-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #622;
+        }
+
+        .terminal-dots {
+            display: flex;
+            gap: 0.5rem;
+        }
+        /* make dots more bloody */
+        .terminal-dot { width: 12px; height: 12px; border-radius: 50%; }
+        .dot-red { background: #b00; }
+        .dot-yellow { background: #a40; }
+        .dot-green { background: #3a1a1a; }
+
+        .terminal-title {
+            color: #f77;
+            font-size: 0.9rem;
+            margin-left: 0.5rem;
+        }
+
+        .command-line {
+            color: #ffa0a0;
+            font-size: 0.95rem;
+            line-height: 2;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        .command-prompt {
+            color: #ff4d4d;
+            font-weight: bold;
+        }
+
+        .copy-btn {
+            background: transparent;
+            border: 1px solid #f77;
+            color: #f77;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .copy-btn:hover {
+            background: #b33;
+            color: #000;
+            border-color: #b33;
+        }
+
+        .steps-container {
+            margin: 1.5rem 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .step-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.8rem;
+            background: rgba(40, 0, 0, 0.5);
+            border-radius: 10px;
+            margin: 0.5rem 0;
+            border-left: 3px solid #ff4d4d;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 0 8px #7a0000;
+        }
+
+        .step-item:hover {
+            background: rgba(150, 20, 20, 0.5);
+            transform: translateX(5px);
+            border-left-color: #ff8888;
+        }
+
+        .step-number {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #b33;
+            color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .step-command {
+            flex: 1;
+            color: #ffb3b3;
+        }
+
+        .step-copy {
+            color: #ff8888;
+            opacity: 0.5;
+            transition: all 0.3s;
+        }
+
+        .step-item:hover .step-copy {
+            opacity: 1;
+        }
+
+        /* ===== INSTALL ALL BUTTON (bloody) ===== */
+        .install-all {
+            background: linear-gradient(45deg, #b33, #5a0000);
+            border: none;
+            color: #fdd;
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 1rem 0;
+            position: relative;
+            z-index: 2;
+            border: 1px solid #a22;
+        }
+
+        .install-all:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px #f33;
+            background: linear-gradient(45deg, #c44, #8a0000);
+            color: white;
+        }
+
+        /* ===== NOTIFICATION (red) ===== */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #1a0505;
+            border: 1px solid #b33;
+            color: #ffaaaa;
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            font-family: 'Orbitron', sans-serif;
+            z-index: 10000;
+            animation: slideIn 0.3s ease-out;
+            box-shadow: 0 0 20px #b33;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* ===== CURSOR GLOW (red) ===== */
+        .cursor-glow {
+            position: fixed;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: #ff4d4d;
+            filter: blur(20px);
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.25;
+            mix-blend-mode: screen;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .glitch-title { font-size: 2rem; }
+            .tools-grid { grid-template-columns: 1fr; }
+            .tool-title { font-size: 1.5rem; }
+            .terminal-box { padding: 1rem; }
+            .command-line { font-size: 0.8rem; }
+            .evil-eye-container { width: 60px; height: 60px; bottom: 15px; right: 15px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Effects (darker, red) -->
+    <div class="cyber-bg"></div>
+    <div class="grid-overlay"></div>
+    <div class="scan-line"></div>
+    <div class="cursor-glow" id="cursorGlow"></div>
+
+    <!-- EVIL EYE (always watching) -->
+    <div class="evil-eye-container" id="evilEye">
+        <div class="eye-socket">
+            <div class="eye-veins"></div>
+            <div class="eye-pupil"></div>
+            <div class="eye-glimmer"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="glitch-title">TERMUX TOOLS • EVIL EYE</h1>
+            <p class="tagline">// BLOODSHED COLLECTION //</p>
+            <a href="powerfullProjects.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i> BACK TO PROJECTS
+            </a>
+        </header>
+
+        <!-- Tools Grid (now 3 cards) -->
+        <div class="tools-grid">
+            <!-- DevilX Tool -->
+            <div class="tool-card">
+                <div class="tool-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-skull"></i>
+                    </div>
+                    <h2 class="tool-title">DevilX <small>v2.0</small></h2>
+                </div>
+
+                <div class="tool-description">
+                    <i class="fas fa-info-circle" style="color: #ff5e5e;"></i>
+                    DevilX is a powerful hacking tool framework for Termux. It includes various modules for penetration testing, security research, and ethical hacking.
+                </div>
+
+                <!-- Quick Install -->
+                <button class="install-all" onclick="copyAllDevilX()">
+                    <i class="fas fa-copy"></i> COPY ALL COMMANDS
+                </button>
+
+                <!-- Step by Step (updated with pkg style) -->
+                <div class="steps-container">
+                    <div class="step-item" onclick="copyCommand('apt update && apt upgrade -y')">
+                        <span class="step-number">1</span>
+                        <span class="step-command">apt update && apt upgrade -y</span>
+                        <span class="step-copy"><i class="fas fa-copy"></i></span>
+                    </div>
+                    <div class="step-item" onclick="copyCommand('pkg install python -y')">
+                        <span class="step-number">2</span>
+                        <span class="step-command">pkg install python -y</span>
+                        <span class="step-copy"><i class="fas fa-copy"></i></span>
+                    </div>
+                    <div class="step-item" onclick="copyCommand('pkg install git -y')">
+                        <span class="step-number">3</span>
+                        <span class="step-command">pkg install git -y</span>
+                        <span class="step-copy"><i class="fas fa-copy"></i></span>
+                    </div>
+                    <div class="step-item" onclick="copyCommand('git clone https://github.com/VritraSecz/DevilX.git/')">
+                        <span class="step-number">4</span>
+                        <span class="step-command">git clone https://github.com/VritraSecz/DevilX.git/</span>
+                        <span class="step-copy"><i class="fas fa-copy"></i></span>
+                    </div>
+                    <div class="step-item" onclick="copyCommand('cd DevilX')">
+                        <span class="step-number">5</span>
+                        <span class="step-command">cd DevilX</span>
+                        <span class="step-copy"><i class="fas fa-copy"></i></span>
+                    </div>
+                    <div class="step-item" onclick="copyCommand('chmod +x *')">
+                        <span class="step-number">6</span>
+                        <span class="step-command">chmod +x *</span>
+                        <span class="step-copy"><i class="fas fa-copy"></i></span>
+                    </div>
+                    <div class="step-item" onclick="copyCommand('bash setup.sh')">
+                        <span class="step-number">7</span>
+                        <span class="step-command">bash setup.sh</span>
+                        <span class="step-copy"><i class="fas fa-copy"></i></span>
+                    </div>
+                    <div class="step-item" onclick="copyCommand('python devilx.py')">
+                        <span class="step-number">8</span>
+                        <span class="step-command">python devilx.py</span>
+                        <span class="step-copy"><i class="fas fa-copy"></i></span>
+                    </div>
+                </div>
+
+                <!-- Terminal Preview -->
+                <div class="terminal-box">
+                    <div class="terminal-header">
+                        <div class="terminal-dots">
+                            <div class="terminal-dot dot-red"></div>
+                            <div class="terminal-dot dot-yellow"></div>
+                            <div class="terminal-dot dot-green"></div>
+                        </div>
+                        <div class="terminal-title">termux@evil:~$</div>
+                    </div>
+                    <div class="command-line">
+                        <span class="command-prompt">#</span> apt update && apt upgrade -y<br>
+                        <span class="command-prompt">#</span> pkg install python -y<br>
+                        <span class="command-prompt">#</span> pkg install git -y<br>
+                        <span class="command-prompt">#</span> git clone https://github.com/VritraSecz/DevilX.git/<br>
+                        <span class="command-prompt">#</span> cd DevilX<br>
+                        <span class="command-prompt">#</span> chmod +x *<br>
+                        <span class="command-prompt">#</span> bash setup.sh<br>
+                        <span class="command-prompt">#</span> python devilx.py
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hacked Tool -->
+            <div class="tool-card">
+                <div class="tool-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-skull-crossbones"></i>
+                    </div>
+                    <h2 class="tool-title">HACKED <small>v1.0</small></h2>
+                </div>
+
+                <div class="tool-description">
+                    <i class="fas fa-info-circle" style="color: #ff5e5e;"></i>
+                    Hacked is an advanced security tool for Termux that provides various hacking modules, information gathering, and vulnerability assessment tools.
+                </div>
+
+                <!-- Quick Install -->
+                <button class="install-all" onclick="copyAllHacked()">
+                    <i class="fas fa-copy"></i> COPY ALL COMMANDS
+                </button>
+
+                <!-- Step by Step (pkg style) -->
+                <div class="steps-container">
+                    <div class="step-item" onclick="copyCommand('apt update && apt upgrade -y')">
+                        <span class="step-number">1</span>
+                        <span class="step-command">apt update && apt upgrade -y</span>
+                        <span class="step-copy"><i class="fas fa-copy"></i></span>
+                    </div>
+                    <div class="step-item" onclick="copyCommand('pkg install python -y')">
+                        <span class="step-number">2</span>
+                        <span class="step-command">pkg install python -y</span>
+                        <span class="step-copy"><i class="fas fa-copy"></i></span>
+                    </div>
+                    <div class="step-item" onclick="copyCommand('pkg install git -y')">
+                        <span class="step-number">3</span>
+                        <span class="step-command">pkg install git -y</span>
+                        <span class="step-copy"><i class="fas fa-copy"></i></span>
+                    </div>
+                    <div class="step-item" onclick="copyCommand('pkg install figlet -y')">
+                        <span class="step-number">4</span>
+                        <span class="step-command">pkg install figlet -y</span>
+                        <span class="step-copy"><i class="fas fa-copy"></i></span>
+                    </div>
+                    <div class="step-item" onclick="copyCommand('git clone https://github.com/VritraSecz/Hacked.git/')">
+                        <span class="step-number">5</span>
+                        <span class="step-command">git clone https://github.com/VritraSecz/Hacked.git/</span>
+                        <span class="step-copy"><i class="fas fa-copy"></i></span>
+                    </div>
+                    <div class="step-item" onclick="copyCommand('cd Hacked')">
+                        <span class="step-number">6</span>
+                        <span class="step-command">cd Hacked</span>
+                        <span class="step-copy"><i class="fas fa-copy"></i></span>
+                    </div>
+                    <div class="step-item" onclick="copyCommand('chmod +x *')">
+                        <span class="step-number">7</span>
+                        <span class="step-command">chmod +x *</span>
+                        <span class="step-copy"><i class="fas fa-copy"></i></span>
+                    </div>
+                    <div class="step-item" onclick="copyCommand('python hacked.py')">
+                        <span class="step-number">8</span>
+                        <span class="step-command">python hacked.py</span>
+                        <span class="step-copy"><i class="fas fa-copy"></i></span>
+                    </div>
+                </div>
+
+                <!-- Terminal Preview -->
+                <div class="terminal-box">
+                    <div class="terminal-header">
+                        <div class="terminal-dots">
+                            <div class="terminal-dot dot-red"></div>
+                            <div class="terminal-dot dot-yellow"></div>
+                            <div class="terminal-dot dot-green"></div>
+                        </div>
+                        <div class="terminal-title">termux@evil:~$</div>
+                    </div>
+                    <div class="command-line">
+                        <span class="command-prompt">#</span> apt update && apt upgrade -y<br>
+                        <span class="command-prompt">#</span> pkg install python -y<br>
+                        <span class="command-prompt">#</span> pkg install git -y<br>
+                        <span class="command-prompt">#</span> pkg install figlet -y<br>
+                        <span class="command-prompt">#</span> git clone https://github.com/VritraSecz/Hacked.git/<br>
+                        <span class="command-prompt">#</span> cd Hacked<br>
+                        <span class="command-prompt">#</span> chmod +x *<br>
+                        <span class="command-prompt">#</span> python hacked.py
+                    </div>
+                </div>
+            </div>
+
+            <!-- NEW: EVIL EYE THEME Tool (exactly as requested) -->
+            <div class="tool-card">
+                <div class="tool-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <h2 class="tool-title">EVIL EYE <small>theme</small></h2>
+                </div>
+
+                <div class="tool-description">
+                    <i class="fas fa-info-circle" style="color: #ff5e5e;"></i>
+                    👁️ Termux-Theme by WhiteSoulEvLF. Transform your Termux with an evil eye theme. Follow the steps below to install the dark, eye-themed style.
+                </div>
+
+                <!-- Quick Install -->
+                <button class="install-all" onclick="copyAllEvilEye()">
+                    <i class="fas fa-copy"></i> COPY ALL COMMANDS
+                </button>
+
+                <!-- Step by Step (exact requested commands) -->
+                <div class="steps-container">
+                    <div class="step-item" onclick="copyCommand('apt update && apt upgrade')">
+                        <span class="step-number">1</span>
+                        <span class="step-command">apt update && apt upgrade</span>
+                        <span class="step-copy"><i class="fas fa-copy"></i></span>
+                    </div>
+                    <div class="step-item" onclick="copyCommand('pkg install python')">
+                        <span class="step-number">2</span>
+                        <span class="step-command">pkg install python</span>
+                        <span class="step-copy"><i class="fas fa-copy"></i></span>
+                    </div>
+                    <div class="step-item" onclick="copyCommand('pkg install git')">
+                        <span class="step-number">3</span>
+                        <span class="step-command">pkg install git</span>
+                        <span class="step-copy"><i class="fas fa-copy"></i></span>
+                    </div>
+                    <div class="step-item" onclick="copyCommand('git clone https://github.com/WhiteSoulEvLF/Termux-Theme.git')">
+                        <span class="step-number">4</span>
+                        <span class="step-command">git clone https://github.com/WhiteSoulEvLF/Termux-Theme.git</span>
+                        <span class="step-copy"><i class="fas fa-copy"></i></span>
+                    </div>
+                    <div class="step-item" onclick="copyCommand('cd Termux-Theme')">
+                        <span class="step-number">5</span>
+                        <span class="step-command">cd Termux-Theme</span>
+                        <span class="step-copy"><i class="fas fa-copy"></i></span>
+                    </div>
+                    <div class="step-item" onclick="copyCommand('bash Requirements.sh')">
+                        <span class="step-number">6</span>
+                        <span class="step-command">bash Requirements.sh</span>
+                        <span class="step-copy"><i class="fas fa-copy"></i></span>
+                    </div>
+                    <div class="step-item" onclick="copyCommand('bash Main.sh')">
+                        <span class="step-number">7</span>
+                        <span class="step-command">bash Main.sh</span>
+                        <span class="step-copy"><i class="fas fa-copy"></i></span>
+                    </div>
+                </div>
+
+                <!-- Terminal Preview (exact commands) -->
+                <div class="terminal-box">
+                    <div class="terminal-header">
+                        <div class="terminal-dots">
+                            <div class="terminal-dot dot-red"></div>
+                            <div class="terminal-dot dot-yellow"></div>
+                            <div class="terminal-dot dot-green"></div>
+                        </div>
+                        <div class="terminal-title">termux@evil:~$</div>
+                    </div>
+                    <div class="command-line">
+                        <span class="command-prompt">#</span> apt update && apt upgrade<br>
+                        <span class="command-prompt">#</span> pkg install python<br>
+                        <span class="command-prompt">#</span> pkg install git<br>
+                        <span class="command-prompt">#</span> git clone https://github.com/WhiteSoulEvLF/Termux-Theme.git<br>
+                        <span class="command-prompt">#</span> cd Termux-Theme<br>
+                        <span class="command-prompt">#</span> bash Requirements.sh<br>
+                        <span class="command-prompt">#</span> bash Main.sh
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer style="text-align: center; margin-top: 3rem; padding: 2rem; border-top: 1px solid #a22;">
+            <div style="font-family: 'Orbitron', sans-serif; color: #b44;">
+                <i class="fas fa-eye"></i> EVIL TERMUX TOOLS • THE EYE COLLECTION
+            </div>
+            <div style="margin-top: 1rem; color: #a66; font-size: 0.8rem;">
+                © 2026 | FOR EDUCATIONAL PURPOSES ONLY | THE EYE SEES ALL
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Cursor glow (red)
+        const cursor = document.getElementById('cursorGlow');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX - 17 + 'px';
+            cursor.style.top = e.clientY - 17 + 'px';
+        });
+
+        // Random glitch effect (stronger)
+        setInterval(() => {
+            if (Math.random() > 0.92) {
+                document.body.style.animation = 'glitch 0.25s';
+                setTimeout(() => {
+                    document.body.style.animation = '';
+                }, 250);
+            }
+        }, 2000);
+
+        // Glitch animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes glitch {
+                0% { transform: translate(0); filter: hue-rotate(0deg); }
+                20% { transform: translate(-3px, 2px); filter: hue-rotate(10deg); }
+                40% { transform: translate(3px, -3px); filter: hue-rotate(-10deg); }
+                60% { transform: translate(-2px, -3px); filter: hue-rotate(5deg); }
+                80% { transform: translate(2px, 3px); filter: hue-rotate(-5deg); }
+                100% { transform: translate(0); filter: hue-rotate(0deg); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Copy single command
+        function copyCommand(command) {
+            navigator.clipboard.writeText(command).then(() => {
+                showNotification('✓ Copied: ' + command.substring(0, 25) + '...');
+            });
+        }
+
+        // Copy all DevilX commands (updated)
+        function copyAllDevilX() {
+            const commands = [
+                'apt update && apt upgrade -y',
+                'pkg install python -y',
+                'pkg install git -y',
+                'git clone https://github.com/VritraSecz/DevilX.git/',
+                'cd DevilX',
+                'chmod +x *',
+                'bash setup.sh',
+                'python devilx.py'
+            ].join('\n');
+            navigator.clipboard.writeText(commands).then(() => {
+                showNotification('✓ All DevilX commands (evil) copied!');
+            });
+        }
+
+        // Copy all Hacked commands (updated)
+        function copyAllHacked() {
+            const commands = [
+                'apt update && apt upgrade -y',
+                'pkg install python -y',
+                'pkg install git -y',
+                'pkg install figlet -y',
+                'git clone https://github.com/VritraSecz/Hacked.git/',
+                'cd Hacked',
+                'chmod +x *',
+                'python hacked.py'
+            ].join('\n');
+            navigator.clipboard.writeText(commands).then(() => {
+                showNotification('✓ All Hacked commands (blood) copied!');
+            });
+        }
+
+        // Copy all Evil Eye Theme commands (exact as requested)
+        function copyAllEvilEye() {
+            const commands = [
+                'apt update && apt upgrade',
+                'pkg install python',
+                'pkg install git',
+                'git clone https://github.com/WhiteSoulEvLF/Termux-Theme.git',
+                'cd Termux-Theme',
+                'bash Requirements.sh',
+                'bash Main.sh'
+            ].join('\n');
+            navigator.clipboard.writeText(commands).then(() => {
+                showNotification('✓ All Evil Eye theme commands copied!');
+            });
+        }
+
+        // Show notification
+        function showNotification(message) {
+            const notif = document.createElement('div');
+            notif.className = 'notification';
+            notif.innerHTML = `<i class="fas fa-eye"></i> ${message}`;
+            document.body.appendChild(notif);
+            setTimeout(() => {
+                notif.remove();
+            }, 2200);
+        }
+
+        // Expose to global
+        window.copyCommand = copyCommand;
+        window.copyAllDevilX = copyAllDevilX;
+        window.copyAllHacked = copyAllHacked;
+        window.copyAllEvilEye = copyAllEvilEye;
+
+        // Console art (evil)
+        console.log('%c🔥 EVIL TERMUX TOOLS 🔥', 'color: #ff4d4d; font-size: 16px; font-family: Orbitron; font-weight: bold; text-shadow: 0 0 10px red;');
+        console.log('%c👁️ THE EYE IS WATCHING', 'color: #b33; font-size: 12px;');
+
+        // Extra: eye click easter egg
+        document.getElementById('evilEye').addEventListener('click', () => {
+            showNotification('👁️ THE EYE SEES YOU...');
+            document.body.style.animation = 'glitch 0.3s';
+            setTimeout(() => document.body.style.animation = '', 300);
+        });
+    </script>
+</body>
+    </html>
